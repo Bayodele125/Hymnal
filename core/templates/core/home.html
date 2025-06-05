@@ -1,0 +1,52 @@
+{% extends 'core/base.html' %}
+{% block content %}
+  
+    <!-- Search Bar -->
+    <div class="relative mb-6">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Search"
+        class="w-full pl-10 pr-4 py-3 rounded-xl bg-blue-100 text-blue-900 placeholder-blue-500 outline-none focus:ring-2 focus:ring-blue-400"
+      />
+      <svg
+        class="absolute left-3 top-3.5 w-5 h-5 text-blue-500"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M21 21l-4.35-4.35M5 11a6 6 0 1112 0 6 6 0 01-12 0z">
+        </path>
+      </svg>
+    </div>
+
+    <!-- Hymn List -->
+    <ul id="hymnList" class="space-y-3 text-white text-lg font-medium">
+        
+        {% for hymn in hymns %}
+        <li><a href="{% url 'core:hymn_detail' hymn.id %}">{{hymn.title}}</a></li>
+        {% endfor %}
+    </ul>
+
+  </div>
+
+  <script>
+  document.getElementById('searchInput').addEventListener('input', function() {
+      const filter = this.value.toLowerCase();
+      const list = document.getElementById('hymnList');
+      const items = list.getElementsByTagName('li');
+      for (let i = 0; i < items.length; i++) {
+          const a = items[i].getElementsByTagName('a')[0];
+          const text = a.textContent || a.innerText;
+          if (text.toLowerCase().indexOf(filter) > -1) {
+              items[i].style.display = "";
+          } else {
+              items[i].style.display = "none";
+          }
+      }
+  });
+  </script>
+{% endblock %}
+

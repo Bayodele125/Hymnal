@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" class="scroll-smooth">
+{% load pwa %}
+{% progressive_web_app_meta %}
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}Hymnal{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{% static 'core/main.css' %}">
+    <link rel="manifest" href="{% static 'manifest.json' %}">
+    <meta name="theme-color" content="#1e40af" />
+    <meta name="mobile-web-app-capable" content="yes" />
+</head>
+<body class="bg-gradient-to-br from-blue-800 to-blue-600 min-h-screen flex flex-col items-center p-6 text-white">
+
+    <nav class="w-full max-w-4xl flex justify-between items-center mb-8 bg-blue-900 bg-opacity-80 rounded-xl p-4 shadow-lg">
+        <a href="{% url 'core:home' %}" class="text-3xl font-extrabold tracking-wide hover:text-blue-300 transition">Hymnal</a>
+        <div class="space-x-6 text-lg font-semibold">
+            <a href="{% url 'core:home' %}" class="hover:text-blue-300 transition">Home</a>
+            <a href="{% url 'core:about' %}" class="hover:text-blue-300 transition">About</a>
+        </div>
+    </nav>
+
+    <main class="container mx-auto w-full max-w-4xl flex-grow bg-blue-900 bg-opacity-70 rounded-xl p-8 shadow-lg">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="w-full max-w-4xl text-center text-blue-300 mt-12 mb-6">
+        &copy; {{ now|date:"Y" }} Hymnal Website
+    </footer>
+
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register("{% static 'serviceworker.js' %}").then(function(registration) {
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          }, function(err) {
+            console.log('ServiceWorker registration failed: ', err);
+          });
+        });
+      }
+    </script>
+
+</body>
+</html>

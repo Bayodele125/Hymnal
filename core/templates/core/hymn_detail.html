@@ -1,0 +1,18 @@
+{% extends "core/base.html" %}
+
+{% block title %}Hymnal - {{ hymn.title }}{% endblock %}
+
+{% block content %}
+<h1 style="white-space: pre-wrap;align-items: center;font-size: 30px; margin-bottom: 10px;text-align: center;">{{ hymn.title }}</h1>
+
+<pre style="white-space: pre-wrap;align-items: center;font-size: 20px; text-align: center;">{{ hymn.lyrics | upper }}</pre>
+
+{% if hymn.sound %}
+  <div style="margin-top: 20px; margin-bottom: 20px;">
+    <audio controls>
+      <source src="{{ hymn.sound.url }}" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+  </div>
+  {% endif %}
+  {% endblock %}
